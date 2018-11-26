@@ -2,6 +2,7 @@ import { Meteor } from "meteor/meteor";
 import { Mongo } from "meteor/mongo";
 import { check } from "meteor/check";
 
+export const coleccionTorneos = new Mongo.Collection("torneos");
 export const coleccionProyectos = new Mongo.Collection("proyectos");
 export const coleccionClientes = new Mongo.Collection("clientes");
 

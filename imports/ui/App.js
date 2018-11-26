@@ -9,6 +9,8 @@ class App extends Component {
       return (
         <div className="container-fluid">
           <NavBar/>
+
+					
 					<Tournaments/>
         </div>
       );

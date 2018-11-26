@@ -1,32 +1,34 @@
-import React, {Component} from 'react';
+import React, { Component } from "react";
 
-class TournamentItem extends Component {
-	/*
-	props de este componente:
-		tournament: torneo activos que va a renderizar.
-			tournament tiene: id, name
-	*/
-    render() {
-    	console.log(this.props.tournament.name);
-   	 return (
-   	 	<div>
-   	 	  <form>
-   	 	  	<div className="row listContent">
-   	 	  		<div className="col-sm-6 col-md-6 col-lg-6 listItem">
-   	 	  			<a href="https://www.google.com" className="listContent">{this.props.tournament.name}</a>
-   	 	  		</div>
-   	 	  	</div>
-   	 	  	<div className="row">
-   	 	  		<div className="col-sm-2 col-md-2 col-lg-2">
-   	 	  			<button className="btn btn-primary"><i className="fas fa-user-plus"/>Unirse</button>
-   	 	  		</div>
-   	 	  		<div className="col-sm-2 col-md-2 col-lg-2">
-   	 	  			<button className="btn btn-primary"><i className="fas fa-chart-bar"/>Estadísticas</button>
-   	 	  		</div>
-   	 	  	</div>
-   	 	  </form>
-   	 	</div>
-   	 );
-    }
+// Task component - represents a single todo item
+export default class TournamentItem extends Component {
+  handleTablaPosiciones() {
+    this.props.onClickItem(this.props.torneo);
+  }
+
+  render() {
+    return (
+      <div className="card bg-light mb-3" style={{ width: "18rem" }}>
+        <div className="card-header">{this.props.torneo.nombre}</div>
+        <div className="card-body">
+          <p className="card-text">
+            Fecha de inicio: {this.props.torneo.fechaInicio.toDateString()}
+          </p>
+          <p className="card-text">
+            Fecha de finalización: {this.props.torneo.fechaFinalizacion.toDateString()}
+          </p>
+          <p className="card-text">
+            Máximo número de participantes: {this.props.torneo.maxNumPart}
+          </p>
+          <button type="button" className="btn btn-outline-secondary">
+            Inscribirse
+          </button>
+          &nbsp;
+          <button type="button" className="btn btn-outline-secondary" onClick={this.handleTablaPosiciones.bind(this)}>
+            Ver
+          </button>
+        </div>
+      </div>
+    );
+  }
 }
-export default TournamentItem;

@@ -1,21 +1,14 @@
-import React, {Component} from 'react';
+import React, { Component } from "react";
 
-class BoardItem extends Component {
+// Task component - represents a single todo item
+export default class BoardItem extends Component {
 
-	/*
-	Props de este componente
-		key: es igual a la posición que tiene el participante que este componente representa.
-		participant: es el participante que aloja este item.
-	*/
-
-    render() {
-   	 return (
-   	 	<tr>
-        <th>{this.props.participant.position}</th>
-        <th>{this.props.participant.name}</th>
-        <th>{this.props.participant.level}</th>
+  render() {
+    return (
+      <tr>
+        <th>{this.props.jugador.posicion}</th>
+        <th>{this.props.jugador.codigo}</th>
       </tr>
-   	 );
-    }
+    );
+  }
 }
-export default BoardItem;
