@@ -1,10 +1,8 @@
 import { Meteor } from 'meteor/meteor';
+import '../imports/api/db.js';
 
 Meteor.startup(() => {
-  console.log("Hola Mundo!!!");
-  metodoPersonalizado();
+
 });
 
-var metodoPersonalizado = function () {
-	console.log("Hola Mundo desde el server");
-}
+
