@@ -26,6 +26,9 @@ Meteor.methods({
       fechaInicio: varFechaInicio,
       fechaFinalizacion: varFechaFinalizacion,
       maxNumPart: varNumeroMaximoParticipantes,
+      tablaPosiciones: [],
+      tablaSolicitudes: [],
+      tablaRetos: []
     });
   },
 
@@ -41,6 +44,46 @@ Meteor.methods({
         $addToSet: {
           tablaSolicitudes: {
             codigoSolicitante: varIdUsuario
+          }
+        }
+      }
+    );
+  },
+
+  "solicitudes.remove"(
+    varIdTorneo,
+    varIdUsuario
+  ) {
+    check(varIdUsuario, String);
+
+    coleccionTorneos.update(
+      { _id: varIdTorneo },
+      {
+        $pull: {
+          tablaSolicitudes: {
+            codigoSolicitante: varIdUsuario
+          }
+        }
+      }
+    );
+  },
+
+  "tablaPosiciones.insert"(
+    varIdTorneo,
+    varPosicion,
+    varIdUsuario,
+    varNombreCompleto
+  ) {
+    check(varIdUsuario, String);
+
+    coleccionTorneos.update(
+      { _id: varIdTorneo },
+      {
+        $addToSet: {
+          tablaPosiciones: {
+            posicion: varPosicion,
+            codigo: varIdUsuario,
+            nombre: varNombreCompleto
           }
         }
       }
@@ -67,5 +110,27 @@ Meteor.methods({
       nombreCompleto: varNombreCompleto,
       rol: varRol
     });
+  },
+
+  "retos.insert"(
+    varIdTorneo,
+    varJugador1,
+    varJugador2
+  ) {
+
+    coleccionTorneos.update(
+      { _id: varIdTorneo },
+      {
+        $addToSet: {
+          tablaRetos: {
+            jugador1Codigo: varJugador1.codigo,
+            jugador1Nombre: varJugador1.nombre,
+            jugador2Codigo: varJugador2.codigo,
+            jugador2Nombre: varJugador2.nombre,
+            estado: "A"
+          }
+        }
+      }
+    );
   }
 });

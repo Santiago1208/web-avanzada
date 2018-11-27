@@ -27,13 +27,59 @@ class Tournaments extends Component {
     ));
   }
 
-  handlePeticionesTorneo(torneo){
+  handlePeticionesTorneo(torneo) {
     let codigoUsuario = sessionStorage.getItem("usuario");
-    
-      Meteor.call("solicitudes.insert",torneo._id,codigoUsuario);
 
+    Meteor.call("solicitudes.insert", torneo._id, codigoUsuario);
   }
-  
+
+  handleRetos(jugador, jugadorSesion) {
+    if (this.state.torneoDetalle.tablaRetos) {
+      let documentoReto = this.state.torneoDetalle.tablaRetos.find(
+        function findRecord(reto) {
+          return (
+            reto.jugador1Codigo == jugadorSesion.codigo ||
+            reto.jugador2Codigo == jugadorSesion.codigo
+          );
+        }
+      );
+
+      if (documentoReto) {
+        document.getElementById("lblMensaje").innerHTML =
+          "Hay un reto en progreso! El jugador " +
+          documentoReto.jugador1Nombre +
+          " reto a " +
+          documentoReto.jugador2Nombre;
+        $("#modalCenter").modal("show");
+      } else {
+        Meteor.call(
+          "retos.insert",
+          this.state.torneoDetalle._id,
+          jugadorSesion,
+          jugador
+        );
+
+        document.getElementById("lblMensaje2").innerHTML =
+          "Se ha retado al jugador " + jugador.nombre + "!";
+        $("#modalCenter2").modal("show");
+      }
+    } else {
+      Meteor.call(
+        "retos.insert",
+        this.state.torneoDetalle._id,
+        jugadorSesion,
+        jugador
+      );
+
+      document.getElementById("lblMensaje2").innerHTML =
+        "Se ha retado al jugador " + jugador.nombre + "!";
+      $("#modalCenter2").modal("show");
+
+      this.setState({
+        torneoDetalle: coleccionTorneos.findOne({_id: this.state.torneoDetalle._id})
+      });
+    }
+  }
 
   renderTablaPosiciones() {
     if (this.state.torneoDetalle === null) {
@@ -53,8 +99,25 @@ class Tournaments extends Component {
         </tr>
       );
     } else {
-      return this.state.torneoDetalle.tablaPosiciones.map(jugador => (
-        <BoardItem key={jugador.codigo} jugador={jugador} />
+      let jugadorSesion = this.state.torneoDetalle.tablaPosiciones.find(
+        function findRecord(jugador) {
+          return jugador.codigo == sessionStorage.getItem("usuario");
+        }
+      );
+      let orderedTable = this.state.torneoDetalle.tablaPosiciones.sort(function(
+        a,
+        b
+      ) {
+        return a.posicion - b.posicion;
+      });
+
+      return orderedTable.map(jugador => (
+        <BoardItem
+          key={jugador.codigo}
+          jugador={jugador}
+          jugadorSesion={jugadorSesion}
+          onClickItem={this.handleRetos.bind(this)}
+        />
       ));
     }
   }
@@ -83,7 +146,9 @@ class Tournaments extends Component {
               <thead>
                 <tr>
                   <th scope="col">Posición</th>
-                  <th scope="col">Participante</th>
+                  <th scope="col">Código participante</th>
+                  <th scope="col">Nombre participante</th>
+                  <th scope="col">Retar</th>
                 </tr>
               </thead>
               <tbody>{this.renderTablaPosiciones()}</tbody>
@@ -117,6 +182,37 @@ class Tournaments extends Component {
               </div>
               <div className="modal-body">
                 <label id="lblMensaje">...</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          className="modal fade"
+          id="modalCenter2"
+          tabIndex="-1"
+          role="dialog"
+          aria-labelledby="exampleModalCenterTitle"
+          aria-hidden="true"
+          data-show="false"
+        >
+          <div className="modal-dialog modal-dialog-centered" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="exampleModalCenterTitle2">
+                  <label id="lblMensajeTitulo2">Reto exitoso</label>
+                </h5>
+                <button
+                  type="button"
+                  className="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div className="modal-body">
+                <label id="lblMensaje2">...</label>
               </div>
             </div>
           </div>
