@@ -5,31 +5,29 @@ import { Redirect } from "react-router-dom";
 import TournamentPanelAdmin from "./components/TournamentPanelAdmin.js";
 
 class App extends Component {
-
   //<Tournaments/>
   render() {
     if (sessionStorage.getItem("usuario") != null) {
-
-      if (sessionStorage.getItem("usuario") == "admin"){
+      console.log(sessionStorage.getItem("rol"));      
+      
+      if (sessionStorage.getItem("rol") == "admin") {
         return (
           <div className="container-fluid">
-            <NavBar/>
-  
-            <TournamentPanelAdmin/>
+            <NavBar />
+
+            <TournamentPanelAdmin />
           </div>
         );
-      }  else {
-      
-      return (
-        <div className="container-fluid">
-          <NavBar/>
+      } else {
+        return (
+          <div className="container-fluid">
+            <NavBar />
 
-          <Tournaments/>
-        </div>
-      );
-
+            <Tournaments />
+          </div>
+        );
       }
-    }else {
+    } else {
       return <Redirect to={{ pathname: "/" }} />;
     }
   }

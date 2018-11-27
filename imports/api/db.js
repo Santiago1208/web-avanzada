@@ -3,7 +3,7 @@ import { Mongo } from "meteor/mongo";
 import { check } from "meteor/check";
 
 export const coleccionTorneos = new Mongo.Collection("torneos");
-export const coleccionClientes = new Mongo.Collection("clientes");
+export const coleccionClientes = new Mongo.Collection("usuarios");
 
 //BORRAR LOS METODOS DE INSERTAR PROYECTOS Y TAREAS Y QUITAR LA CONSTATE
 Meteor.methods({

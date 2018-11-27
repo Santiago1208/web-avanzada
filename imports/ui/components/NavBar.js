@@ -13,6 +13,8 @@ export default class NavBar extends Component {
     event.preventDefault();
 
     sessionStorage.removeItem("usuario");
+    sessionStorage.removeItem("rol");
+    
 
     window.location.replace("/");
   }

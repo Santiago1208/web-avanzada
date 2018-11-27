@@ -28,7 +28,7 @@ export default class Login extends Component {
     if (documentoUsuario) {
         if(documentoUsuario.pwd == pwdUsuario){
             sessionStorage.setItem("usuario", nombreUsuario);
-            sessionStorage.setItem("usuarioObj", documentoUsuario);
+            sessionStorage.setItem("rol", documentoUsuario.rol);
 
             window.location.replace("/App");
         }else{
