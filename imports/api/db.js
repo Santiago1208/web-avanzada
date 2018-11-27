@@ -3,61 +3,50 @@ import { Mongo } from "meteor/mongo";
 import { check } from "meteor/check";
 
 export const coleccionTorneos = new Mongo.Collection("torneos");
-export const coleccionProyectos = new Mongo.Collection("proyectos");
 export const coleccionClientes = new Mongo.Collection("clientes");
 
 //BORRAR LOS METODOS DE INSERTAR PROYECTOS Y TAREAS Y QUITAR LA CONSTATE
 Meteor.methods({
-  "proyectos.insert"(
+  "torneos.insert"(
     varNombre,
-    varDescripcion,
     varResponsable,
     varFechaInicio,
-    varFechaEntrega,
-    varEstado
+    varFechaFinalizacion,
+    varNumeroMaximoParticipantes
   ) {
     check(varNombre, String);
-    check(varDescripcion, String);
     check(varResponsable, String);
     check(varFechaInicio, Date);
-    check(varFechaEntrega, Date);
-    check(varEstado, String);
-
-    coleccionProyectos.insert({
+    check(varFechaFinalizacion, Date);
+    check(varNumeroMaximoParticipantes, String);
+ 
+    coleccionTorneos.insert({
       nombre: varNombre,
-      descripcion: varDescripcion,
       responsable: varResponsable,
       fechaInicio: varFechaInicio,
-      fechaEntrega: varFechaEntrega,
-      estado: varEstado
+      fechaFinalizacion: varFechaFinalizacion,
+      maxNumPart: varNumeroMaximoParticipantes,
     });
   },
-  "tareas.insert"(
-    varIdProyecto,
-    varNombreTarea,
-    varDescripcionTarea,
-    varPrioridadTarea,
-    varFechaCreacionTarea
-  ) {
-    check(varNombreTarea, String);
-    check(varDescripcionTarea, String);
-    check(varPrioridadTarea, String);
-    check(varFechaCreacionTarea, Date);
 
-    coleccionProyectos.update(
-      { _id: varIdProyecto },
+  "solicitudes.insert"(
+    varIdTorneo,
+    varIdUsuario
+  ) {
+    check(varIdUsuario, String);
+
+    coleccionTorneos.update(
+      { _id: varIdTorneo },
       {
         $addToSet: {
-          tareas: {
-            nombre: varNombreTarea,
-            descripcion: varDescripcionTarea,
-            prioridad: varPrioridadTarea,
-            fechaCreacion: varFechaCreacionTarea
+          tablaSolicitudes: {
+            codigoSolicitante: varIdUsuario
           }
         }
       }
     );
   },
+
   "clientes.insert"(
     varNombre,
     varPassword,
@@ -79,5 +68,4 @@ Meteor.methods({
       rol: varRol
     });
   }
-
 });

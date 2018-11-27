@@ -5,6 +5,7 @@ import { coleccionTorneos } from "../../api/db.js";
 
 import TournamentItem from "./TournamentItem.js";
 import BoardItem from "./BoardItem.js";
+import { Meteor } from "meteor/meteor";
 
 class Tournaments extends Component {
   constructor() {
@@ -21,9 +22,18 @@ class Tournaments extends Component {
         key={torneo._id}
         torneo={torneo}
         onClickItem={this.handleTablaPosicionesTorneo.bind(this)}
+        onClickItem2={this.handlePeticionesTorneo.bind(this)}
       />
     ));
   }
+
+  handlePeticionesTorneo(torneo){
+    let codigoUsuario = sessionStorage.getItem("usuario");
+    
+      Meteor.call("solicitudes.insert",torneo._id,codigoUsuario);
+
+  }
+  
 
   renderTablaPosiciones() {
     if (this.state.torneoDetalle === null) {

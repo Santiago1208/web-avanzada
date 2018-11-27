@@ -6,6 +6,12 @@ export default class TournamentItem extends Component {
     this.props.onClickItem(this.props.torneo);
   }
 
+  
+  hablePeticionesTorneo(){
+    this.props.onClickItem2(this.props.torneo);
+  }
+  
+
   render() {
     return (
       <div className="card bg-light mb-3" style={{ width: "18rem" }}>
@@ -20,7 +26,7 @@ export default class TournamentItem extends Component {
           <p className="card-text">
             Máximo número de participantes: {this.props.torneo.maxNumPart}
           </p>
-          <button type="button" className="btn btn-outline-secondary">
+          <button type="button" className="btn btn-outline-secondary" onClick={this.hablePeticionesTorneo.bind(this)}>
             Inscribirse
           </button>
           &nbsp;
