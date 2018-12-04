@@ -14,15 +14,14 @@ class App extends Component {
         return (
           <div className="container-fluid">
             <NavBar />
-            <TournamentPanelAdmin />
-            <RequestList />
+            <TournamentPanelAdmin/>
+            <RequestList/>
           </div>
         );
       } else {
         return (
           <div className="container-fluid">
             <NavBar />
-
             <Tournaments />
           </div>
         );

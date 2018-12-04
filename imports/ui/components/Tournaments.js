@@ -48,7 +48,7 @@ class Tournaments extends Component {
         document.getElementById("lblMensaje").innerHTML =
           "Hay un reto en progreso! El jugador " +
           documentoReto.jugador1Nombre +
-          " reto a " +
+          " retó a " +
           documentoReto.jugador2Nombre;
         $("#modalCenter").modal("show");
       } else {

@@ -5,6 +5,7 @@ import Switch from "react-router-dom/Switch";
 import Login from "./Login";
 import App from "../App";
 import Registrar from "./Registrar";
+import MatchesInGame from "./MatchesInGame";
 
 class ReactRouter extends Component {
   render() {
@@ -30,6 +31,13 @@ class ReactRouter extends Component {
             exact
             render={() => {
               return <Registrar />;
+            }}
+          />
+          <Route
+            path = "/partidas"
+            exact
+            render={() => {
+              return <MatchesInGame/>;
             }}
           />
         </Switch>

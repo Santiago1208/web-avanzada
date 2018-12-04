@@ -2,3 +2,29 @@
   padding-left: 40%;
   padding-top: 10%;
 }
+
+.viewPort {
+  height: 100%;
+  overflow: scroll;
+}
+
+.listItem {
+	border: 1px solid black;
+	width: 50%;
+}
+
+.banner {
+	background-color: #1B98E0
+}
+
+.banner, h1 {
+	color: white;
+}
+
+#comboBox {
+	width: inherit;
+}
+
+#div-comboBox {
+	padding-left: 0px;
+}

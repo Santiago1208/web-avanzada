@@ -7,20 +7,16 @@ export const coleccionClientes = new Mongo.Collection("usuarios");
 
 //BORRAR LOS METODOS DE INSERTAR PROYECTOS Y TAREAS Y QUITAR LA CONSTATE
 Meteor.methods({
-  "torneos.insert"(
-    varNombre,
-    varResponsable,
-    varFechaInicio,
-    varFechaFinalizacion,
-    varNumeroMaximoParticipantes
-  ) {
+  "torneos.insert"(varNombre, varResponsable, varFechaInicio, varFechaFinalizacion, varNumeroMaximoParticipantes) 
+  {
     check(varNombre, String);
     check(varResponsable, String);
     check(varFechaInicio, Date);
     check(varFechaFinalizacion, Date);
     check(varNumeroMaximoParticipantes, String);
  
-    coleccionTorneos.insert({
+    coleccionTorneos.insert
+    ({
       nombre: varNombre,
       responsable: varResponsable,
       fechaInicio: varFechaInicio,
@@ -32,28 +28,20 @@ Meteor.methods({
     });
   },
 
-  "solicitudes.insert"(
-    varIdTorneo,
-    varIdUsuario
-  ) {
+  "solicitudes.insert"(varIdTorneo, varIdUsuario)
+  {
     check(varIdUsuario, String);
 
-    coleccionTorneos.update(
-      { _id: varIdTorneo },
+    coleccionTorneos.update
+    ({ _id: varIdTorneo },
       {
-        $addToSet: {
-          tablaSolicitudes: {
-            codigoSolicitante: varIdUsuario
-          }
-        }
+        $addToSet: {tablaSolicitudes: {codigoSolicitante: varIdUsuario}}
       }
     );
   },
 
-  "solicitudes.remove"(
-    varIdTorneo,
-    varIdUsuario
-  ) {
+  "solicitudes.remove"(varIdTorneo,varIdUsuario) 
+  {
     check(varIdUsuario, String);
 
     coleccionTorneos.update(
@@ -90,34 +78,26 @@ Meteor.methods({
     );
   },
 
-  "clientes.insert"(
-    varNombre,
-    varPassword,
-    varEmail,
-    varNombreCompleto,
-    varRol
-  ) {
+  "clientes.insert"(varNombre,varPassword,varEmail,varNombreCompleto,varRol)
+   {
     check(varNombre, String);
     check(varPassword, String);
     check(varEmail, String);
     check(varNombreCompleto, String);
     check(varRol, String);
 
-    coleccionClientes.insert({
-      usuario: varNombre,
-      pwd: varPassword,
-      email: varEmail,
-      nombreCompleto: varNombreCompleto,
-      rol: varRol
-    });
+    coleccionClientes.insert(
+      {
+        usuario: varNombre,
+        pwd: varPassword,
+        email: varEmail,
+        nombreCompleto: varNombreCompleto,
+        rol: varRol
+      }
+    );
   },
 
-  "retos.insert"(
-    varIdTorneo,
-    varJugador1,
-    varJugador2
-  ) {
-
+  "retos.insert"(varIdTorneo,varJugador1,varJugador2) {
     coleccionTorneos.update(
       { _id: varIdTorneo },
       {
@@ -132,5 +112,11 @@ Meteor.methods({
         }
       }
     );
-  }
+  },
+
+  "torneos.consultarRetos"(nombreTorneo) {
+    return coleccionTorneos.find({nombre:nombreTorneo},{tablaRetos:[]});
+  },
+
+
 });
